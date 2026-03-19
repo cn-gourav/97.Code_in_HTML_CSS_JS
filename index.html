@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Discovery</title>
     
-    <!-- Phosphor Icons for crisp, lightweight SVG icons -->
+    <!-- Phosphor Icons for crisp SVG icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Google Fonts: Inter -->
@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Main Stylesheet -->
+    <!-- Main Stylesheet (No changes needed here!) -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -32,9 +32,9 @@
                 </div>
             </div>
             <div class="header-right">
-                <button class="btn btn-outline">
-                    <i class="ph-fill ph-bookmark"></i>
-                    Bookmarks (6)
+                <button class="btn btn-outline" id="bookmarks-btn">
+                    <i class="ph-fill ph-bookmark" style="color: var(--bookmark-icon);"></i>
+                    Bookmarks (<span id="bookmark-count">0</span>)
                 </button>
             </div>
         </header>
@@ -44,20 +44,21 @@
             <div class="search-row">
                 <div class="input-group full-width">
                     <i class="ph ph-magnifying-glass"></i>
-                    <input type="text" placeholder="Search by job title, company, or keywords...">
+                    <input type="text" id="search-input" placeholder="Search by job title, company, or keywords...">
                 </div>
             </div>
             <div class="search-row bottom-row">
                 <div class="input-group location-input">
                     <i class="ph ph-map-pin"></i>
-                    <input type="text" placeholder="Filter by location...">
+                    <input type="text" id="location-input" placeholder="Filter by location...">
                 </div>
-                <div class="type-filters">
-                    <button class="filter-pill">All</button>
-                    <button class="filter-pill active">Full-time</button>
-                    <button class="filter-pill">Part-time</button>
-                    <button class="filter-pill">Contract</button>
-                    <button class="filter-pill">Remote</button>
+                <div class="type-filters" id="type-filters">
+                    <!-- Added data-type attributes for easier javascript selection -->
+                    <button class="filter-pill" data-type="All">All</button>
+                    <button class="filter-pill active" data-type="Full-time">Full-time</button>
+                    <button class="filter-pill" data-type="Part-time">Part-time</button>
+                    <button class="filter-pill" data-type="Contract">Contract</button>
+                    <button class="filter-pill" data-type="Remote">Remote</button>
                 </div>
             </div>
         </section>
@@ -65,305 +66,25 @@
         <!-- Main Content Area -->
         <main class="main-content">
             <div class="results-header">
-                <p class="results-count">Showing <span class="highlight">6</span> jobs</p>
-                <button class="clear-filters">Clear all filters</button>
+                <p class="results-count">Showing <span class="highlight" id="results-count-text">0</span> jobs</p>
+                <button class="clear-filters" id="clear-filters" style="display: none;">Clear all filters</button>
             </div>
             
             <div class="active-filters">
-                <div class="active-tag">
-                    Type: Full-time
-                    <button class="remove-tag"><i class="ph ph-x"></i></button>
+                <div class="active-tag" id="active-type-tag">
+                    Type: <span id="active-type-name">Full-time</span>
+                    <button class="remove-tag" id="remove-type-filter"><i class="ph ph-x"></i></button>
                 </div>
             </div>
 
-            <!-- Job Grid (Hardcoded without JavaScript) -->
-            <div class="job-grid">
-                
-                <!-- Job Card 1 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800&h=400" alt="TechCorp Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&q=80&w=150&h=150" alt="TechCorp Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">Senior Frontend Developer</h2>
-                        <p class="company-name">TechCorp Solutions</p>
-                        
-                        <p class="job-desc">Join our team to build cutting-edge web applications using React and TypeScript. Work on products used ...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">San Francisco, CA</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$120k - $160k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">2 days ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">5+ years React experience</span>
-                            <span class="skill-tag">TypeScript proficiency</span>
-                            <span class="skill-tag skill-tag-alt">+1 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
-                <!-- Job Card 2 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800&h=400" alt="DesignStudio Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80&w=150&h=150" alt="DesignStudio Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">UX/UI Designer</h2>
-                        <p class="company-name">DesignStudio Pro</p>
-                        
-                        <p class="job-desc">Create beautiful, user-centered designs for web and mobile applications. Collaborate with developers to...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">Austin, TX</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$90k - $130k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">3 days ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">Figma expertise</span>
-                            <span class="skill-tag">Portfolio required</span>
-                            <span class="skill-tag skill-tag-alt">+1 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
-                <!-- Job Card 3 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=400" alt="DataDriven Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=150&h=150" alt="DataDriven Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">Data Scientist</h2>
-                        <p class="company-name">DataDriven Analytics</p>
-                        
-                        <p class="job-desc">Analyze complex datasets and build machine learning models to drive business decisions. Work with cuttin...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">Seattle, WA</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$140k - $190k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">5 days ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">Python/R proficiency</span>
-                            <span class="skill-tag">ML experience</span>
-                            <span class="skill-tag skill-tag-alt">+1 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
-                <!-- Job Card 4 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=800&h=400" alt="StartupHub Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=150&h=150" alt="StartupHub Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">Product Manager</h2>
-                        <p class="company-name">StartupHub</p>
-                        
-                        <p class="job-desc">Lead product strategy and roadmap for our flagship SaaS platform. Collaborate cross-functionally to...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">New York, NY</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$130k - $170k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">1 week ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">Agile methodology</span>
-                            <span class="skill-tag">SaaS experience</span>
-                            <span class="skill-tag skill-tag-alt">+2 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
-                <!-- Job Card 5 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=800&h=400" alt="ServerSide Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&q=80&w=150&h=150" alt="ServerSide Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">Backend Developer</h2>
-                        <p class="company-name">ServerSide Co</p>
-                        
-                        <p class="job-desc">Design and implement scalable APIs and microservices. Optimize database performance and ensure high...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">Denver, CO</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$110k - $150k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">2 weeks ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">Node.js / Python</span>
-                            <span class="skill-tag">AWS / Cloud</span>
-                            <span class="skill-tag skill-tag-alt">+2 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
-                <!-- Job Card 6 -->
-                <article class="job-card">
-                    <div class="card-header">
-                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800&h=400" alt="AI Innovations Workspace" class="card-cover">
-                        <button class="bookmark-btn" aria-label="Bookmark job">
-                            <i class="ph-fill ph-bookmark"></i>
-                        </button>
-                        <div class="company-logo-box">
-                            <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?auto=format&fit=crop&q=80&w=150&h=150" alt="AI Innovations Logo" class="company-logo">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="job-type-tag">
-                            <i class="ph ph-briefcase"></i>
-                            Full-time
-                        </span>
-                        
-                        <h2 class="job-title">Machine Learning Engineer</h2>
-                        <p class="company-name">AI Innovations Lab</p>
-                        
-                        <p class="job-desc">Develop and deploy machine learning models at scale. Enhance our predictive algorithms using the...</p>
-                        
-                        <div class="job-meta">
-                            <div class="meta-item">
-                                <i class="ph ph-map-pin"></i>
-                                <span class="meta-value">Boston, MA</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-currency-dollar"></i>
-                                <span class="meta-value">$150k - $200k</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="ph ph-clock"></i>
-                                <span class="meta-value">3 weeks ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="job-skills">
-                            <span class="skill-tag">PyTorch / TensorFlow</span>
-                            <span class="skill-tag">Data Pipelines</span>
-                            <span class="skill-tag skill-tag-alt">+3 more</span>
-                        </div>
-                        
-                        <button class="btn btn-primary">View Details</button>
-                    </div>
-                </article>
-
+            <!-- Job Grid (Will be injected by our new JS file to allow dynamic filtering) -->
+            <div class="job-grid" id="job-grid">
+                <!-- Cards render here dynamically! -->
             </div>
         </main>
     </div>
 
+    <!-- Features Script Link Added Back -->
+    <script src="script.js"></script>
 </body>
 </html>
