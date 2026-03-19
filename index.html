@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Discovery</title>
+    <!-- Phosphor Icons for high-quality SVG icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-left">
+                <div class="logo-box">
+                    <i class="ph ph-briefcase"></i>
+                </div>
+                <div>
+                    <h1 class="app-title">Job Discovery</h1>
+                    <p class="app-subtitle">Find your dream career</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="btn btn-outline">
+                    <i class="ph ph-bookmark"></i>
+                    Bookmarks (6)
+                </button>
+            </div>
+        </header>
+
+        <!-- Search & Filters Container -->
+        <section class="search-container">
+            <div class="search-row">
+                <div class="input-group full-width">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" placeholder="Search by job title, company, or keywords...">
+                </div>
+            </div>
+            <div class="search-row bottom-row">
+                <div class="input-group location-input">
+                    <i class="ph ph-map-pin"></i>
+                    <input type="text" placeholder="Filter by location...">
+                </div>
+                <div class="type-filters">
+                    <button class="filter-pill">All</button>
+                    <button class="filter-pill active">Full-time</button>
+                    <button class="filter-pill">Part-time</button>
+                    <button class="filter-pill">Contract</button>
+                    <button class="filter-pill">Remote</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="results-header">
+                <p class="results-count">Showing <span class="highlight">6</span> jobs</p>
+                <button class="clear-filters">Clear all filters</button>
+            </div>
+            
+            <div class="active-filters">
+                <div class="active-tag">
+                    Type: Full-time
+                    <button class="remove-tag"><i class="ph ph-x"></i></button>
+                </div>
+            </div>
+
+            <!-- Job Grid -->
+            <div class="job-grid" id="job-grid">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript code -->
+    <script src="script.js"></script>
+</body>
+</html>
